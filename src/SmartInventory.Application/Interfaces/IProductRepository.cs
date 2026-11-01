@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using SmartInventory.Domain.Entities;
+
+namespace SmartInventory.Application.Interfaces;
+
+public interface IProductRepository : IRepository<Product>
+{
+    Task<List<Product>> GetAllWithDetailsAsync(CancellationToken ct = default);
+    Task<Product?> GetByIdWithDetailsAsync(int id, CancellationToken ct = default);
+    Task<bool> SkuExistsAsync(string sku, CancellationToken ct = default);
+}

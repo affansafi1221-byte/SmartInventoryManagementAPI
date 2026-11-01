@@ -10,4 +10,15 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.14" />
   </ItemGroup>
 
+	<ItemGroup>
+		<Compile Remove="src\**" />
+		<Content Remove="src\**" />
+		<EmbeddedResource Remove="src\**" />
+		<None Remove="src\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Controllers\" />
+	</ItemGroup>
+
 </Project>

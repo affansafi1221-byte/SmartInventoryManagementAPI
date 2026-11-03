@@ -19,6 +19,10 @@ public static class DependencyInjection
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<IProductRepository, SmartInventory.Infrastructure.Repositories.ProductRepository>();
 
+        services.AddScoped<IInventoryRepository, InventoryRepository>();
+        services.AddScoped<IStockMovementRepository, StockMovementRepository>();
+        services.AddScoped<IInventoryService, InventoryService>();
+
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IProductService, ProductService>();
         return services;

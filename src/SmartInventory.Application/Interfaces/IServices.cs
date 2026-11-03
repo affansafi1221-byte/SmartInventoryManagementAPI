@@ -20,3 +20,13 @@ public interface IProductService
     Task<ProductDto?> UpdateAsync(int id, UpdateProductDto dto);
     Task<bool> DeleteAsync(int id);
 }
+public interface IInventoryService
+{
+    Task<List<InventoryDto>> GetAllAsync();
+    Task<InventoryDto> GetByProductIdAsync(int productId);
+    Task<List<InventoryDto>> GetLowStockAsync();
+    Task<InventoryDto> StockInAsync(StockChangeDto dto);
+    Task<InventoryDto> StockOutAsync(StockChangeDto dto);
+    Task<InventoryDto> AdjustAsync(AdjustStockDto dto);
+    Task<List<StockMovementDto>> GetMovementsAsync(int? productId, int take = 50);
+} 

@@ -17,8 +17,8 @@ public class OrderController(IOrderService service) : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<OrderDto>>> GetAll([FromQuery] OrderStatus? status)
-        => Ok(await service.GetAllAsync(status));
+    public async Task<ActionResult<PagedResult<OrderDto>>> GetAll([FromQuery] OrderQuery query)
+    => Ok(await service.GetAllAsync(query));
 
     [HttpGet("{id:int}")]
     public async Task<ActionResult<OrderDto>> GetById(int id) => Ok(await service.GetByIdAsync(id));

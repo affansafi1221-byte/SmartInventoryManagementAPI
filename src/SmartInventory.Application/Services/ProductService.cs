@@ -12,9 +12,16 @@ public class ProductService(
     IProductRepository products,
     IRepository<Category> categories,
     IUnitOfWork uow) : IProductService
+
 {
-    public async Task<List<ProductDto>> GetAllAsync()
-        => (await products.GetAllWithDetailsAsync()).Select(Map).ToList();
+    public async Task<PagedResult<ProductDto>> GetAllAsync(ProductQuery q)
+    {
+        var page = Math.Max(q.Page, 1);
+        var size = Math.Clamp(q.PageSize, 1, 100);
+
+        var (items, total) = await products.GetPagedAsync(q.Search, q.CategoryId, page, size);
+        return new PagedResult<ProductDto>(items.Select(Map).ToList(), page, size, total);
+    }
 
     public async Task<ProductDto?> GetByIdAsync(int id)
     {

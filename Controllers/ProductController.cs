@@ -9,7 +9,8 @@ namespace SmartInventoryManagementAPI.Controllers;
 public class ProductsController(IProductService service) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<List<ProductDto>>> GetAll() => Ok(await service.GetAllAsync());
+    public async Task<ActionResult<PagedResult<ProductDto>>> GetAll([FromQuery] ProductQuery query)
+    => Ok(await service.GetAllAsync(query));
 
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ProductDto>> GetById(int id)

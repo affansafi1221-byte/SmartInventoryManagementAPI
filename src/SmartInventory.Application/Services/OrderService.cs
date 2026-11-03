@@ -73,8 +73,14 @@ public class OrderService(
         return Map(order);
     }
 
-    public async Task<List<OrderDto>> GetAllAsync(OrderStatus? status)
-        => (await orders.GetAllWithDetailsAsync(status)).Select(Map).ToList();
+    public async Task<PagedResult<OrderDto>> GetAllAsync(OrderQuery q)
+    {
+        var page = Math.Max(q.Page, 1);
+        var size = Math.Clamp(q.PageSize, 1, 100);
+
+        var (items, total) = await orders.GetPagedAsync(q.Status, q.Search, page, size);
+        return new PagedResult<OrderDto>(items.Select(Map).ToList(), page, size, total);
+    }
 
     public async Task<OrderDto> GetByIdAsync(int id) => Map(await GetOrThrowAsync(id));
 

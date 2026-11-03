@@ -11,12 +11,13 @@ public interface ICategoryService
 
 public interface IProductService
 {
-    Task<List<ProductDto>> GetAllAsync();
+    Task<PagedResult<ProductDto>> GetAllAsync(ProductQuery query);
     Task<ProductDto?> GetByIdAsync(int id);
     Task<ProductDto> CreateAsync(CreateProductDto dto);
     Task<ProductDto?> UpdateAsync(int id, UpdateProductDto dto);
     Task<bool> DeleteAsync(int id);
 }
+
 public interface IInventoryService
 {
     Task<List<InventoryDto>> GetAllAsync();
@@ -27,16 +28,18 @@ public interface IInventoryService
     Task<InventoryDto> AdjustAsync(AdjustStockDto dto);
     Task<List<StockMovementDto>> GetMovementsAsync(int? productId, int take = 50);
 }
+
 public interface IOrderService
 {
     Task<OrderDto> CreateAsync(CreateOrderDto dto);
-    Task<List<OrderDto>> GetAllAsync(OrderStatus? status);
+    Task<PagedResult<OrderDto>> GetAllAsync(OrderQuery query);
     Task<OrderDto> GetByIdAsync(int id);
     Task<OrderDto> ConfirmAsync(int id);
     Task<OrderDto> ShipAsync(int id);
     Task<OrderDto> DeliverAsync(int id);
     Task<OrderDto> CancelAsync(int id);
 }
+
 public interface IPaymentService
 {
     Task<OrderPaymentsDto> CreateAsync(int orderId, CreatePaymentDto dto);

@@ -37,3 +37,8 @@ public interface IOrderService
     Task<OrderDto> DeliverAsync(int id);
     Task<OrderDto> CancelAsync(int id);
 }
+public interface IPaymentService
+{
+    Task<OrderPaymentsDto> CreateAsync(int orderId, CreatePaymentDto dto);
+    Task<OrderPaymentsDto> GetByOrderAsync(int orderId);
+}

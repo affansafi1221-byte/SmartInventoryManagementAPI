@@ -106,6 +106,11 @@ public class OrderService(
                 Note = "Order cancelled"
             });
         }
+        foreach (var payment in order.Payments.Where(p => p.Status == PaymentStatus.Completed))
+        {
+            payment.Status = PaymentStatus.Refunded;
+            payment.UpdatedAt = DateTime.UtcNow;
+        }
 
         order.Status = OrderStatus.Cancelled;
         order.UpdatedAt = DateTime.UtcNow;

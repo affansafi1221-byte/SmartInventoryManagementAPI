@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using SmartInventory.Application.DTOs;
+﻿using SmartInventory.Application.DTOs;
+using SmartInventory.Domain.Enums;
 
 namespace SmartInventory.Application.Interfaces;
 
@@ -29,4 +26,14 @@ public interface IInventoryService
     Task<InventoryDto> StockOutAsync(StockChangeDto dto);
     Task<InventoryDto> AdjustAsync(AdjustStockDto dto);
     Task<List<StockMovementDto>> GetMovementsAsync(int? productId, int take = 50);
-} 
+}
+public interface IOrderService
+{
+    Task<OrderDto> CreateAsync(CreateOrderDto dto);
+    Task<List<OrderDto>> GetAllAsync(OrderStatus? status);
+    Task<OrderDto> GetByIdAsync(int id);
+    Task<OrderDto> ConfirmAsync(int id);
+    Task<OrderDto> ShipAsync(int id);
+    Task<OrderDto> DeliverAsync(int id);
+    Task<OrderDto> CancelAsync(int id);
+}

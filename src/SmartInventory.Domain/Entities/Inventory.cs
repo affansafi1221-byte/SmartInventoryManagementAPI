@@ -10,4 +10,5 @@ public class Inventory : BaseEntity
     public int ProductId { get; set; }
     public Product Product { get; set; } = null!;
     public int QuantityOnHand { get; set; }
+    public byte[] RowVersion { get; set; } = [];
 }

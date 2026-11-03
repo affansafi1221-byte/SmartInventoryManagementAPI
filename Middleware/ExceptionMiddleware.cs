@@ -28,6 +28,11 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
                 Title = title,
                 Detail = status == 500 ? "An unexpected error occurred." : ex.Message
             });
+
+            
+
+
+
         }
     }
 }

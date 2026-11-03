@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using SmartInventory.Application.Interfaces;
 using SmartInventory.Domain.Entities;
+using SmartInventory.Application.Exceptions;
 
 namespace SmartInventory.Infrastructure.Data;
 
@@ -57,7 +58,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
             e.HasOne(x => x.Inventory).WithOne(i => i.Product).HasForeignKey<Inventory>(i => i.ProductId);
         });
 
-        b.Entity<Inventory>(e => e.HasIndex(x => x.ProductId).IsUnique());
+        b.Entity<Inventory>(e =>
+        {
+            e.HasIndex(x => x.ProductId).IsUnique();
+            e.Property(x => x.RowVersion).IsRowVersion();
+        });
 
         b.Entity<StockMovement>(e =>
         {
@@ -92,4 +97,16 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
             e.HasOne(x => x.Order).WithMany(o => o.Payments).HasForeignKey(x => x.OrderId).OnDelete(DeleteBehavior.Cascade);
         });
     }
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            throw new ConcurrencyException("The record was modified by another request. Please retry.");
+        }
+    }
+
 }

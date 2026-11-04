@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmartInventory.Application.Exceptions;
-using System.ComponentModel.DataAnnotations;
 using ValidationException = SmartInventory.Application.Exceptions.ValidationException;
 
 namespace SmartInventoryManagementAPI.Middleware;
@@ -15,7 +14,9 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
             var (status, title) = ex switch
             {
                 ValidationException => (400, "Validation error"),
+                UnauthorizedException => (401, "Unauthorized"),
                 NotFoundException => (404, "Not found"),
+                ConcurrencyException => (409, "Conflict"),
                 _ => (500, "Server error")
             };
 
@@ -28,11 +29,6 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
                 Title = title,
                 Detail = status == 500 ? "An unexpected error occurred." : ex.Message
             });
-
-            
-
-
-
         }
     }
 }

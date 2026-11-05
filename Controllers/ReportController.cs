@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmartInventory.Application.DTOs;
 using SmartInventory.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using SmartInventoryManagementAPI.Authorization;
 
 namespace SmartInventoryManagementAPI.Controllers;
 

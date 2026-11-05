@@ -19,6 +19,17 @@ public interface IJwtTokenService
 
 public interface IUserRepository : IRepository<User>
 {
+    
+    Task<List<User>> GetAllWithRoleAsync(CancellationToken ct = default);
+
+  
+    public interface IUserService
+    {
+        Task<List<UserDto>> GetAllAsync();
+        Task<UserDto> CreateAsync(CreateUserDto dto);
+        Task<UserDto> ChangeRoleAsync(int id, int roleId);
+        Task<UserDto> SetActiveAsync(int id, bool isActive);
+    }
     Task<User?> GetByEmailAsync(string email, CancellationToken ct = default);
     Task<User?> GetByIdWithRoleAsync(int id, CancellationToken ct = default);
     Task<bool> EmailExistsAsync(string email, CancellationToken ct = default);

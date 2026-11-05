@@ -10,6 +10,7 @@ public class OrderService(
     IOrderRepository orders,
     IInventoryRepository inventories,
     IStockMovementRepository movements,
+    ICurrentUserService currentUser,
     IUnitOfWork uow) : IOrderService
 {
     public async Task<OrderDto> CreateAsync(CreateOrderDto dto)
@@ -32,7 +33,8 @@ public class OrderService(
             OrderNumber = GenerateOrderNumber(),
             CustomerName = dto.CustomerName.Trim(),
             CustomerEmail = dto.CustomerEmail?.Trim(),
-            Status = OrderStatus.Pending
+            Status = OrderStatus.Pending,
+            CreatedByUserId = currentUser.UserId
         };
 
         foreach (var line in lines)
@@ -57,13 +59,15 @@ public class OrderService(
                 UnitPrice = inv.Product.Price // price snapshot
             });
 
+           
             await movements.AddAsync(new StockMovement
             {
                 ProductId = inv.ProductId,
                 Type = StockMovementType.Out,
                 Quantity = line.Quantity,
                 Reference = order.OrderNumber,
-                Note = "Order created"
+                Note = "Order created",
+                UserId = currentUser.UserId
             });
         }
 
@@ -109,7 +113,8 @@ public class OrderService(
                 Type = StockMovementType.Return,
                 Quantity = item.Quantity,
                 Reference = order.OrderNumber,
-                Note = "Order cancelled"
+                Note = "Order cancelled",
+                UserId = currentUser.UserId
             });
         }
         foreach (var payment in order.Payments.Where(p => p.Status == PaymentStatus.Completed))

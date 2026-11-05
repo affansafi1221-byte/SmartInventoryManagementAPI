@@ -1,10 +1,14 @@
-using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using SmartInventory.Application.Interfaces;
+using SmartInventory.Application.Services;
 using SmartInventory.Infrastructure;
 using SmartInventory.Infrastructure.Data;
 using SmartInventoryManagementAPI.Middleware;
+using SmartInventoryManagementAPI.Services;
+using System.Text;
+using static SmartInventory.Application.Interfaces.IUserRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +16,9 @@ builder.Services.AddControllers()
     .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(
         new System.Text.Json.Serialization.JsonStringEnumConverter()));
 
+builder.Services.AddHttpContextAccessor();
+Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -51,7 +58,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             NameClaimType = "name"
         };
     });
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(o =>
+{
+    // Default: har endpoint par login zaroori, jab tak [AllowAnonymous] na ho
+    o.FallbackPolicy = new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+}); 
 
 // Angular UI (Day 5) ke liye
 builder.Services.AddCors(o => o.AddPolicy("Angular", p =>

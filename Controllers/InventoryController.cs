@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmartInventory.Application.DTOs;
 using SmartInventory.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using SmartInventoryManagementAPI.Authorization;
 
 namespace SmartInventoryManagementAPI.Controllers;
 
@@ -29,10 +31,12 @@ public class InventoryController(IInventoryService service) : ControllerBase
         => Ok(await service.StockOutAsync(dto));
 
     [HttpPost("adjust")]
+    [Authorize(Roles = AppRoles.AdminOrManager)]
     public async Task<ActionResult<InventoryDto>> Adjust(AdjustStockDto dto)
         => Ok(await service.AdjustAsync(dto));
 
     [HttpGet("movements")]
+    [Authorize(Roles = AppRoles.AdminOrManager)]
     public async Task<ActionResult<List<StockMovementDto>>> GetMovements(
         [FromQuery] int? productId, [FromQuery] int take = 50)
         => Ok(await service.GetMovementsAsync(productId, take));

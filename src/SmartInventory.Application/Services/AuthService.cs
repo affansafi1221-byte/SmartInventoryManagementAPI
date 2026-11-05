@@ -68,7 +68,7 @@ public class AuthService(
 
     private static string Normalize(string? email) => (email ?? "").Trim().ToLowerInvariant();
 
-    private static void ValidatePassword(string? password)
+    internal static void ValidatePassword(string? password)
     {
         if (string.IsNullOrEmpty(password) || password.Length < 8)
             throw new ValidationException("Password must be at least 8 characters.");

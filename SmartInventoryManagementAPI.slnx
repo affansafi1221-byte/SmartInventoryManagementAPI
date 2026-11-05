@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Authorization/">
+    <File Path="AppRoles.cs" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/SmartInventory.Application/SmartInventory.Application.csproj" />
     <Project Path="src/SmartInventory.Domain/SmartInventory.Domain.csproj" />

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmartInventory.Application.DTOs;
 using SmartInventory.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using SmartInventoryManagementAPI.Authorization;
 
 namespace SmartInventoryManagementAPI.Controllers;
 
@@ -20,6 +22,7 @@ public class ProductsController(IProductService service) : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = AppRoles.AdminOrManager)]
     public async Task<ActionResult<ProductDto>> Create(CreateProductDto dto)
     {
         var created = await service.CreateAsync(dto);
@@ -27,13 +30,16 @@ public class ProductsController(IProductService service) : ControllerBase
     }
 
     [HttpPut("{id:int}")]
+    [Authorize(Roles = AppRoles.AdminOrManager)]
     public async Task<ActionResult<ProductDto>> Update(int id, UpdateProductDto dto)
+        
     {
         var updated = await service.UpdateAsync(id, dto);
         return updated is null ? NotFound() : Ok(updated);
     }
 
     [HttpDelete("{id:int}")]
+    [Authorize(Roles = AppRoles.Admin)]
     public async Task<IActionResult> Delete(int id)
         => await service.DeleteAsync(id) ? NoContent() : NotFound();
 }

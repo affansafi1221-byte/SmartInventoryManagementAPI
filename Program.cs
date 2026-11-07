@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using  Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using SmartInventory.Application.Interfaces;
@@ -17,7 +17,9 @@ builder.Services.AddControllers()
         new System.Text.Json.Serialization.JsonStringEnumConverter()));
 
 builder.Services.AddHttpContextAccessor();
-Services.AddScoped<IUserService, UserService>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

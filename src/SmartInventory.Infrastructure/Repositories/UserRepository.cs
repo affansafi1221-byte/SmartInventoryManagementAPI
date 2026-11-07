@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SmartInventory.Application.Interfaces;
 using SmartInventory.Domain.Entities;
 using SmartInventory.Infrastructure.Data;
@@ -18,4 +15,7 @@ public class UserRepository(AppDbContext db) : Repository<User>(db), IUserReposi
 
     public Task<bool> EmailExistsAsync(string email, CancellationToken ct = default)
         => Set.AnyAsync(u => u.Email == email, ct);
+
+    public Task<List<User>> GetAllWithRoleAsync(CancellationToken ct = default)
+        => Set.AsNoTracking().Include(u => u.Role).OrderBy(u => u.FullName).ToListAsync(ct);
 }

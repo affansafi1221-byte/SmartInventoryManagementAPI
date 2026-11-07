@@ -4,7 +4,10 @@ using ValidationException = SmartInventory.Application.Exceptions.ValidationExce
 
 namespace SmartInventoryManagementAPI.Middleware;
 
-public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+public class ExceptionMiddleware(
+    RequestDelegate next,
+    ILogger<ExceptionMiddleware> logger,
+    IHostEnvironment env)
 {
     public async Task InvokeAsync(HttpContext ctx)
     {
@@ -22,12 +25,17 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
 
             if (status == 500) logger.LogError(ex, "Unhandled exception");
 
+            // 500 par asli error sirf Development mein dikhta hai, production mein generic message
+            var detail = status == 500
+                ? (env.IsDevelopment() ? $"{ex.GetType().Name}: {ex.Message}" : "An unexpected error occurred.")
+                : ex.Message;
+
             ctx.Response.StatusCode = status;
             await ctx.Response.WriteAsJsonAsync(new ProblemDetails
             {
                 Status = status,
                 Title = title,
-                Detail = status == 500 ? "An unexpected error occurred." : ex.Message
+                Detail = detail
             });
         }
     }

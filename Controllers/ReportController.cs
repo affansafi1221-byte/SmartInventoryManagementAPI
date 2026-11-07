@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SmartInventory.Application.DTOs;
 using SmartInventory.Application.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using SmartInventoryManagementAPI.Authorization;
 
 namespace SmartInventoryManagementAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(Roles = AppRoles.AdminOrManager)]
 public class ReportsController(IReportService service) : ControllerBase
 {
     [HttpGet("dashboard")]

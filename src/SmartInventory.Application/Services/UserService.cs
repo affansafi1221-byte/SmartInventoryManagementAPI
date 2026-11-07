@@ -2,10 +2,7 @@
 using SmartInventory.Application.Exceptions;
 using SmartInventory.Application.Interfaces;
 using SmartInventory.Domain.Entities;
-using System;
-using System.Collections.Generic;
 using System.Net.Mail;
-using System.Text;
 using static SmartInventory.Application.Interfaces.IUserRepository;
 
 namespace SmartInventory.Application.Services;

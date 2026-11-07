@@ -17,22 +17,27 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>(o =>
             o.UseSqlServer(config.GetConnectionString("DefaultConnection")));
 
+        // Repositories
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        services.AddScoped<IProductRepository, SmartInventory.Infrastructure.Repositories.ProductRepository>();
-
+        services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IInventoryRepository, InventoryRepository>();
         services.AddScoped<IStockMovementRepository, StockMovementRepository>();
-        services.AddScoped<IInventoryService, InventoryService>();
-
         services.AddScoped<IOrderRepository, OrderRepository>();
-        services.AddScoped<IOrderService, OrderService>();
-        services.AddScoped<IPaymentService, PaymentService>();
         services.AddScoped<IReportRepository, ReportRepository>();
-        services.AddScoped<IReportService, ReportService>();
+        services.AddScoped<IUserRepository, UserRepository>();
+
+        // Services
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<IInventoryService, InventoryService>();
+        services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IPaymentService, PaymentService>();
+        services.AddScoped<IReportService, ReportService>();
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IUserService, UserService>();
 
+        // JWT + password hashing
         var jwt = new JwtSettings
         {
             Key = config["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key is not configured."),
@@ -42,7 +47,8 @@ public static class DependencyInjection
         };
         services.AddSingleton(jwt);
         services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
-        services.AddSingleton<IJwtTokenService, JwtTokenService>(); 
+        services.AddSingleton<IJwtTokenService, JwtTokenService>();
+
         return services;
     }
 }

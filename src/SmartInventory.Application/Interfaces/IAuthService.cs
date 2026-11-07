@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SmartInventory.Application.DTOs;
+﻿using SmartInventory.Application.DTOs;
 using SmartInventory.Domain.Entities;
 
 namespace SmartInventory.Application.Interfaces;
@@ -19,20 +16,10 @@ public interface IJwtTokenService
 
 public interface IUserRepository : IRepository<User>
 {
-    
-    Task<List<User>> GetAllWithRoleAsync(CancellationToken ct = default);
-
-  
-    public interface IUserService
-    {
-        Task<List<UserDto>> GetAllAsync();
-        Task<UserDto> CreateAsync(CreateUserDto dto);
-        Task<UserDto> ChangeRoleAsync(int id, int roleId);
-        Task<UserDto> SetActiveAsync(int id, bool isActive);
-    }
     Task<User?> GetByEmailAsync(string email, CancellationToken ct = default);
     Task<User?> GetByIdWithRoleAsync(int id, CancellationToken ct = default);
     Task<bool> EmailExistsAsync(string email, CancellationToken ct = default);
+    Task<List<User>> GetAllWithRoleAsync(CancellationToken ct = default);
 }
 
 public interface IAuthService
@@ -40,4 +27,12 @@ public interface IAuthService
     Task<UserDto> RegisterAsync(RegisterDto dto);
     Task<AuthResponseDto> LoginAsync(LoginDto dto);
     Task<UserDto> GetCurrentAsync(int userId);
+}
+
+public interface IUserService
+{
+    Task<List<UserDto>> GetAllAsync();
+    Task<UserDto> CreateAsync(CreateUserDto dto);
+    Task<UserDto> ChangeRoleAsync(int id, int roleId);
+    Task<UserDto> SetActiveAsync(int id, bool isActive);
 }

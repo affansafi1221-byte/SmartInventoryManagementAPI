@@ -12,3 +12,5 @@ public record LoginDto(string Email, string Password);
 public record UserDto(int Id, string FullName, string Email, string Role);
 public record AuthResponseDto(string Token, DateTime ExpiresAt, UserDto User);
 
+
+

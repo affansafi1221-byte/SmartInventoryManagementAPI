@@ -6,10 +6,10 @@ using SmartInventory.Domain.Enums;
 
 namespace SmartInventory.Application.Services;
 
-
 public class InventoryService(
     IInventoryRepository inventories,
     IStockMovementRepository movements,
+    ICurrentUserService currentUser,
     IUnitOfWork uow) : IInventoryService
 {
     public async Task<List<InventoryDto>> GetAllAsync()
@@ -35,7 +35,6 @@ public class InventoryService(
         await uow.SaveChangesAsync();
         return Map(inv);
     }
-    UserId = currentUser.UserId,
 
     public async Task<InventoryDto> StockOutAsync(StockChangeDto dto)
     {
@@ -51,7 +50,6 @@ public class InventoryService(
 
         await RecordAsync(inv, StockMovementType.Out, dto.Quantity, dto.Reference, dto.Note);
         await uow.SaveChangesAsync();
-        
         return Map(inv);
     }
 

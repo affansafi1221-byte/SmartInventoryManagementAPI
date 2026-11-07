@@ -10,7 +10,7 @@ using SmartInventoryManagementAPI.Authorization;
 
 [ApiController]
 [Route("api/[controller]")]
-public class OrderController(IOrderService service) : ControllerBase
+public class OrdersController(IOrderService service) : ControllerBase
 {
     [HttpPost]
    

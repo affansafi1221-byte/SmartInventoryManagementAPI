@@ -17,12 +17,22 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<Compile Remove="src\**" />
-		<Content Remove="src\**" />
-		<EmbeddedResource Remove="src\**" />
-		<None Remove="src\**" />
-	</ItemGroup>
+  <Compile Remove="src\**" />
+  <Content Remove="src\**" />
+  <EmbeddedResource Remove="src\**" />
+  <None Remove="src\**" />
 
+  <Compile Remove="tests\**" />
+  <Content Remove="tests\**" />
+  <EmbeddedResource Remove="tests\**" />
+  <None Remove="tests\**" />
+
+  <Compile Remove="client\**" />
+  <Content Remove="client\**" />
+  <EmbeddedResource Remove="client\**" />
+  <None Remove="client\**" />
+</ItemGroup>
+	
 	<ItemGroup>
 	  <ProjectReference Include="src\SmartInventory.Application\SmartInventory.Application.csproj" />
 	  <ProjectReference Include="src\SmartInventory.Infrastructure\SmartInventory.Infrastructure.csproj" />

@@ -25,7 +25,7 @@ public class ExceptionMiddleware(
 
             if (status == 500) logger.LogError(ex, "Unhandled exception");
 
-            // 500 par asli error sirf Development mein dikhta hai, production mein generic message
+            
             var detail = status == 500
                 ? (env.IsDevelopment() ? $"{ex.GetType().Name}: {ex.Message}" : "An unexpected error occurred.")
                 : ex.Message;

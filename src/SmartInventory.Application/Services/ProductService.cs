@@ -83,7 +83,7 @@ public class ProductService(
         return Map(updated!);
     }
 
-    // Soft delete: order history safe rehti hai
+    // Soft delete: order history stay safe
     public async Task<bool> DeleteAsync(int id)
     {
         var product = await products.GetByIdAsync(id);

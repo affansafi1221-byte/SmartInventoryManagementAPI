@@ -13,5 +13,5 @@ public class OrderItem : BaseEntity
     public Product Product { get; set; } = null!;
     public int Quantity { get; set; }
     public decimal UnitPrice { get; set; }
-    public decimal LineTotal => Quantity * UnitPrice; // computed, DB mein store nahi hoga
+    public decimal LineTotal => Quantity * UnitPrice;
 }

@@ -22,7 +22,7 @@ public class OrderService(
         if (dto.Items.Any(i => i.Quantity <= 0))
             throw new ValidationException("Item quantity must be greater than zero.");
 
-        // Same product do baar aaye to quantity jama kar do
+        // if quantity same add product 
         var lines = dto.Items
             .GroupBy(i => i.ProductId)
             .Select(g => new { ProductId = g.Key, Quantity = g.Sum(x => x.Quantity) })

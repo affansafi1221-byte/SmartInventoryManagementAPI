@@ -29,7 +29,7 @@ builder.Services.AddSwaggerGen(c =>
         Type = SecuritySchemeType.Http,
         Scheme = "bearer",
         BearerFormat = "JWT",
-        Description = "Login se mila token yahan paste karo"
+        Description = "Paste login token here "
     });
     c.AddSecurityRequirement(document => new OpenApiSecurityRequirement
     {
@@ -62,13 +62,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddAuthorization(o =>
 {
-    // Default: har endpoint par login zaroori, jab tak [AllowAnonymous] na ho
+    // Default: everyendpont needs login 
     o.FallbackPolicy = new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser()
         .Build();
 }); 
 
-// Angular UI (Day 5) ke liye
+// Angular UI config  currently learning
 builder.Services.AddCors(o => o.AddPolicy("Angular", p =>
     p.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod()));
 

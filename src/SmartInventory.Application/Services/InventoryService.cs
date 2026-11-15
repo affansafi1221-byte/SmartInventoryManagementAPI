@@ -62,7 +62,7 @@ public class InventoryService(
         inv.QuantityOnHand = dto.NewQuantity;
         inv.UpdatedAt = DateTime.UtcNow;
 
-        // Adjustment mein Quantity = farq (positive ya negative)
+       
         await RecordAsync(inv, StockMovementType.Adjustment, difference, null, dto.Note);
         await uow.SaveChangesAsync();
         return Map(inv);
